@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 
 const CATEGORIES = [
+  { name: "מוח Q1", modes: ["q1auto", "mechanism", "precision", "gaps", "hook", "validator", "theorydata", "litreview", "clarify", "queries", "journaleval"] },
   { name: "כתיבה ומחקר", modes: ["write", "feedback", "edit", "brainstorm", "literature", "scholar", "rigor"] },
   { name: "פרסום", modes: ["outline", "abstract", "journalfit", "rebuttal"] },
   { name: "קריירה", modes: ["cv", "jobtalk", "interview", "statement", "cover"] },
@@ -10,6 +11,18 @@ const CATEGORIES = [
 ];
 
 const MODES = {
+  q1auto: { label: "🧠 Auto-Orchestrator", placeholder: "הדביקי פסקה / טיוטה / טקסט לשיפור — אבחן ואבחר את הכלים המתאימים אוטומטית…", hint: "מנוע האורקסטרציה המלא: מאבחן את הבעיה (פער, מנגנון חסר, יתר-פרשנות, בלבול מושגי), בוחר כלים, מריץ ברצף חכם, ומחזיר טקסט Q1-ready." },
+  mechanism: { label: "מנגנון תיאורטי", placeholder: "הדביקי פסקה תיאורית — אחלץ את המנגנון…", hint: "Theoretical Mechanism Extractor: חושף את המנגנון הסמוי, בונה A→B→C, מפריד structural/constraints/lived/identity." },
+  precision: { label: "עריכת Q1 (Tightening)", placeholder: "הדביקי פסקה לעריכת דיוק Q1…", hint: "Q1 Precision Editor: חיסול יתירות, הידוק משפטים, שיפור זרימה — בלי לשנות משמעות." },
+  gaps: { label: "איתור פערי טיעון", placeholder: "הדביקי פסקה — אאתר פערי לוגיקה וקישור חסר…", hint: "Argument Gap Detector: מזהה פערים בין טענות, חוליות לוגיות חסרות, ומציע תיקונים." },
+  hook: { label: "Academic Hook", placeholder: "הדביקי את פתיחת המאמר/הפסקה…", hint: "High-Impact Hook Generator: שלוש פתיחות חלופיות (tension/gap/misalignment) מוכנות ל-Q1." },
+  validator: { label: "מבקר פרשנות", placeholder: "הדביקי פסקת ממצאים/פרשנות…", hint: "Interpretation Validator: מסמן over-interpretation, מציע גרסאות מעוגנות בנתונים." },
+  theorydata: { label: "שילוב תיאוריה-ממצא", placeholder: "הדביקי פסקת ממצאים אמפירית…", hint: "Theory–Data Integrator: מזהה את המושג התיאורטי הסמוי ומחבר במפורש לממצא." },
+  litreview: { label: "סקירת ספרות Q1", placeholder: "תחום / שאלה לבניית סקירת ספרות מסונתזת…", hint: "Literature Review Builder: פסקת סקירה מסונתזת (לא רשימה), עם דפוס משותף ופער." },
+  clarify: { label: "חידוד מושגי", placeholder: "הדביקי פסקה עם מושגים שעלולים להתערבב…", hint: "Conceptual Clarifier: מזהה conflation ומפריד מושגים (structural/constraints/lived/identity)." },
+  queries: { label: "שאילתות חכמות", placeholder: "תחום/שאלה לחיפוש ספרותי…", hint: "Smart Query Generator: 5 שאילתות Boolean מתקדמות ל-Scholar/PubMed/WoS." },
+  journaleval: { label: "הערכת Q1", placeholder: "הדביקי פסקה לקבלת הערכת מוכנות לפרסום…", hint: "Journal Readiness Reviewer: חוזקות, חולשות, המלצות לשיפור + דירוג מוכנות." },
+
   write: { label: "כתיבה", placeholder: "נושא הסעיף / פסקה / מאמר שאת רוצה לכתוב…", hint: "אכתוב טקסט אקדמי בסגנונך, מעוגן ב-context-informed practice ובספרות הקיימת." },
   feedback: { label: "פידבק על טקסט", placeholder: "הדביקי כאן את הטקסט שלך לקבלת ביקורת עמיתים…", hint: "אעבור על הטקסט ואספק פידבק כמו reviewer 2 הוגן: בהירות טיעון, מסגרת תיאורטית, מתודולוגיה איכותנית, רפלקסיביות." },
   edit: { label: "עריכה ושיפור", placeholder: "הדביקי טקסט לעריכה אקדמית (אנגלית/עברית)…", hint: "אשפר ניסוח, זרימה ודיוק לשוני אקדמי בלי לשנות משמעות. אסמן שינויים." },
