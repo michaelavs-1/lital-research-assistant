@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body { background:#0b0d12; color:#e6e8ee; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Heebo", "Assistant", Arial; }
+.rtl { direction: rtl; text-align: right; }
+.bubble { white-space: pre-wrap; line-height: 1.7; }
+.bubble pre { background:#0f1320; padding:10px; border-radius:8px; overflow:auto; }
