@@ -43,7 +43,7 @@ export default function Page() {
   const [keyDraft, setKeyDraft] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState("");
-  const [expandedCat, setExpandedCat] = useState("כתיבה ומחקר");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const scrollerRef = useRef(null);
   const fileInputRef = useRef(null);
 
@@ -147,11 +147,54 @@ export default function Page() {
 
   const empty = messages.length === 0;
 
+  const Sidebar = (
+    <aside className="w-[280px] shrink-0 bg-white border-l border-stone-200/80 flex flex-col h-[calc(100vh-73px)] sticky top-[73px]">
+      <div className="px-5 pt-5 pb-3 border-b border-stone-100">
+        <div className="text-[10.5px] font-medium tracking-[0.18em] uppercase text-[#a16207]">Workspaces</div>
+        <div className="font-display text-[19px] font-semibold text-stone-900 mt-1 leading-tight">תחומי עבודה</div>
+      </div>
+      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
+        {CATEGORIES.map((cat) => (
+          <div key={cat.name}>
+            <div className="px-3 mb-2 text-[11px] font-semibold tracking-[0.12em] uppercase text-stone-500">{cat.name}</div>
+            <div className="space-y-0.5">
+              {cat.modes.map((k) => {
+                const active = mode === k;
+                return (
+                  <button
+                    key={k}
+                    onClick={() => { setMode(k); setSidebarOpen(false); }}
+                    className={
+                      "w-full text-right px-3 py-2 rounded-lg text-[14px] transition-all flex items-center gap-2 " +
+                      (active
+                        ? "bg-[#1e3a5f] text-white font-medium shadow-sm"
+                        : "text-stone-700 hover:bg-stone-100 hover:text-[#1e3a5f]")
+                    }
+                  >
+                    <span className={"w-1 h-1 rounded-full " + (active ? "bg-white" : "bg-stone-300")}></span>
+                    {MODES[k].label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </nav>
+    </aside>
+  );
+
   return (
     <div className="min-h-screen paper-bg text-stone-900">
       <header className="bg-white/80 backdrop-blur-md border-b border-stone-200/80 sticky top-0 z-30">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex flex-wrap gap-3 items-center justify-between">
+        <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-wrap gap-3 items-center justify-between">
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg bg-white border border-stone-200 hover:bg-stone-50 transition text-stone-700"
+              aria-label="תפריט"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
             <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#1e3a5f] to-[#0f1e33] flex items-center justify-center font-display text-lg font-semibold text-[#faf7f2] shadow-md ring-1 ring-stone-900/5">LY</div>
             <div>
               <div className="text-[17px] font-display font-semibold tracking-tight text-stone-900 leading-tight">Lital&apos;s Research Co-Pilot</div>
@@ -207,182 +250,156 @@ export default function Page() {
         </div>
       )}
 
-      <div className="max-w-5xl mx-auto px-6 pb-10">
-        {empty && (
-          <section className="pt-12 pb-8 text-center space-y-4">
-            <div className="inline-block">
-              <div className="text-[11px] uppercase tracking-[0.2em] text-[#a16207] font-medium mb-3">Senior Academic Co-Pilot</div>
+      {sidebarOpen && (
+        <div className="md:hidden fixed inset-0 z-40 bg-stone-900/40 backdrop-blur-sm" onClick={() => setSidebarOpen(false)}>
+          <div className="absolute right-0 top-0 h-full w-[280px] bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="px-5 pt-5 pb-3 border-b border-stone-100 flex items-center justify-between">
+              <div>
+                <div className="text-[10.5px] font-medium tracking-[0.18em] uppercase text-[#a16207]">Workspaces</div>
+                <div className="font-display text-[19px] font-semibold text-stone-900 mt-1 leading-tight">תחומי עבודה</div>
+              </div>
+              <button onClick={() => setSidebarOpen(false)} className="w-8 h-8 rounded-lg hover:bg-stone-100 flex items-center justify-center text-stone-500">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
             </div>
-            <h1 className="font-display text-5xl md:text-[56px] font-medium text-stone-900 leading-[1.1]">
-              ברוכה הבאה, ד״ר ליטל
-            </h1>
-            <p className="text-stone-600 text-[15px] leading-relaxed max-w-2xl mx-auto pt-1">
-              שותף כתיבה ומחקר שמכיר את עולמך —
-              <span className="text-stone-800 font-medium"> Context-Informed Practice</span>,
-              אבהות לא-משמורנית, סיכון ועוני, מתודולוגיה איכותנית.
-              <br />
-              בחרי תחום עבודה, הדביקי טקסט או העלי מאמר.
-            </p>
-          </section>
-        )}
-
-        {empty && (
-          <section className="mb-6" dir="rtl">
-            <div className="flex items-center gap-3 mb-4 max-w-3xl mx-auto">
-              <div className="h-px flex-1 bg-stone-200"></div>
-              <div className="text-[11px] font-medium tracking-[0.15em] text-stone-500 uppercase">תחומי עבודה</div>
-              <div className="h-px flex-1 bg-stone-200"></div>
-            </div>
-            <div className="space-y-2 max-w-3xl mx-auto">
-              {CATEGORIES.map((cat) => {
-                const open = expandedCat === cat.name;
-                const hasActive = cat.modes.includes(mode);
-                return (
-                  <div key={cat.name} className={"border rounded-xl bg-white overflow-hidden transition-all " + (open || hasActive ? "border-stone-300 shadow-sm" : "border-stone-200 hover:border-stone-300")}>
-                    <button
-                      onClick={() => setExpandedCat(open ? "" : cat.name)}
-                      className={"w-full flex items-center justify-between px-5 py-3.5 text-[15px] transition group " + (open ? "bg-stone-50/50" : "hover:bg-stone-50/40")}
-                    >
-                      <span className={"font-display font-medium text-[16px] " + (hasActive ? "text-[#1e3a5f]" : "text-stone-800 group-hover:text-stone-900")}>{cat.name}</span>
-                      <span className="flex items-center gap-3">
-                        <span className={"text-[11px] font-medium px-2 py-0.5 rounded-full " + (hasActive ? "bg-[#1e3a5f]/10 text-[#1e3a5f]" : "bg-stone-100 text-stone-500")}>{cat.modes.length}</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={"text-stone-400 transition-transform " + (open ? "rotate-180" : "")}><polyline points="6 9 12 15 18 9"/></svg>
-                      </span>
-                    </button>
-                    {open && (
-                      <div className="flex flex-wrap gap-2 px-5 py-4 border-t border-stone-100 bg-stone-50/30">
-                        {cat.modes.map((k) => (
-                          <button
-                            key={k}
-                            onClick={() => setMode(k)}
-                            className={
-                              "text-[13.5px] px-4 py-2 rounded-full border font-medium transition-all " +
-                              (mode === k
-                                ? "bg-[#1e3a5f] border-[#1e3a5f] text-white shadow-sm"
-                                : "bg-white border-stone-200 text-stone-700 hover:border-[#1e3a5f]/40 hover:text-[#1e3a5f] hover:bg-[#1e3a5f]/[0.03]")
-                            }
-                          >
-                            {MODES[k].label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+            <nav className="overflow-y-auto px-3 py-4 space-y-5 h-[calc(100vh-76px)]">
+              {CATEGORIES.map((cat) => (
+                <div key={cat.name}>
+                  <div className="px-3 mb-2 text-[11px] font-semibold tracking-[0.12em] uppercase text-stone-500">{cat.name}</div>
+                  <div className="space-y-0.5">
+                    {cat.modes.map((k) => {
+                      const active = mode === k;
+                      return (
+                        <button
+                          key={k}
+                          onClick={() => { setMode(k); setSidebarOpen(false); }}
+                          className={
+                            "w-full text-right px-3 py-2 rounded-lg text-[14px] transition-all flex items-center gap-2 " +
+                            (active ? "bg-[#1e3a5f] text-white font-medium shadow-sm" : "text-stone-700 hover:bg-stone-100 hover:text-[#1e3a5f]")
+                          }
+                        >
+                          <span className={"w-1 h-1 rounded-full " + (active ? "bg-white" : "bg-stone-300")}></span>
+                          {MODES[k].label}
+                        </button>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
-
-        {!empty && (
-          <div className="sticky top-[73px] z-20 -mx-6 px-6 py-2.5 bg-[#faf7f2]/90 backdrop-blur-md border-b border-stone-200/60">
-            <div className="flex flex-wrap gap-1.5 justify-center">
-              {Object.keys(MODES).map((k) => (
-                <button
-                  key={k}
-                  onClick={() => setMode(k)}
-                  className={
-                    "text-[12px] px-2.5 py-1 rounded-full border transition-all font-medium " +
-                    (mode === k
-                      ? "bg-[#1e3a5f] border-[#1e3a5f] text-white"
-                      : "bg-white border-stone-200 text-stone-600 hover:border-stone-300 hover:text-stone-900")
-                  }
-                >
-                  {MODES[k].label}
-                </button>
+                </div>
               ))}
-            </div>
-          </div>
-        )}
-
-        <div className="bg-gradient-to-br from-[#1e3a5f]/[0.04] to-[#a16207]/[0.03] border border-[#1e3a5f]/15 rounded-xl px-5 py-4 my-6 leading-relaxed shadow-sm">
-          <div className="flex items-start gap-3">
-            <div className="w-1 self-stretch bg-[#1e3a5f]/40 rounded-full flex-shrink-0 mt-0.5"></div>
-            <div className="flex-1">
-              <div className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#1e3a5f]/70 mb-1">{MODES[mode].label}</div>
-              <div className="text-[14px] text-stone-700">{MODES[mode].hint}</div>
-            </div>
+            </nav>
           </div>
         </div>
+      )}
 
-        {!empty && (
-          <main ref={scrollerRef} className="space-y-6 mb-6">
-            {messages.map((m, i) => (
-              <div key={i}>
-                <div className="text-[11px] uppercase tracking-[0.12em] text-stone-500 mb-2 font-medium">
-                  {m.role === "user" ? "את" : "Co-Pilot"}
-                </div>
-                <div
-                  className={
-                    "rounded-2xl px-6 py-4 border leading-relaxed whitespace-pre-wrap bubble " +
-                    (m.role === "user"
-                      ? "bg-white border-stone-200 text-stone-800 shadow-sm"
-                      : "bg-[#1e3a5f]/[0.025] border-[#1e3a5f]/15 text-stone-800")
-                  }
-                >
-                  {m.content || (busy && i === messages.length - 1 ? "…" : "")}
+      <div className="max-w-[1400px] mx-auto flex">
+        <div className="hidden md:block">{Sidebar}</div>
+
+        <main className="flex-1 min-w-0 px-6 py-8">
+          <div className="max-w-3xl mx-auto">
+            {empty && (
+              <section className="pt-6 pb-4 text-center space-y-4">
+                <div className="text-[11px] uppercase tracking-[0.2em] text-[#a16207] font-medium">Senior Academic Co-Pilot</div>
+                <h1 className="font-display text-4xl md:text-[48px] font-medium text-stone-900 leading-[1.1]">
+                  ברוכה הבאה, ד״ר ליטל
+                </h1>
+                <p className="text-stone-600 text-[15px] leading-relaxed max-w-2xl mx-auto">
+                  שותף כתיבה ומחקר שמכיר את עולמך —
+                  <span className="text-stone-800 font-medium"> Context-Informed Practice</span>,
+                  אבהות לא-משמורנית, סיכון ועוני, מתודולוגיה איכותנית.
+                </p>
+              </section>
+            )}
+
+            <div className="bg-gradient-to-br from-[#1e3a5f]/[0.04] to-[#a16207]/[0.03] border border-[#1e3a5f]/15 rounded-xl px-5 py-4 my-6 leading-relaxed shadow-sm">
+              <div className="flex items-start gap-3">
+                <div className="w-1 self-stretch bg-[#1e3a5f]/40 rounded-full flex-shrink-0 mt-0.5"></div>
+                <div className="flex-1">
+                  <div className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#1e3a5f]/70 mb-1">{MODES[mode].label}</div>
+                  <div className="text-[14px] text-stone-700">{MODES[mode].hint}</div>
                 </div>
               </div>
-            ))}
-          </main>
-        )}
-
-        <div className="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
-          {uploadedFile && (
-            <div className="mb-3 text-[12px] text-[#1e3a5f] bg-[#1e3a5f]/[0.06] border border-[#1e3a5f]/20 rounded-lg px-3 py-1.5 inline-flex items-center gap-2">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              <span className="font-medium">{uploadedFile}</span>
             </div>
-          )}
-          <div className="flex gap-2 items-end">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".pdf,.docx,.txt,.md"
-              onChange={handleFile}
-              className="hidden"
-            />
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              disabled={uploading}
-              title="העלי מאמר (PDF/DOCX/TXT)"
-              className="shrink-0 h-[50px] w-[50px] flex items-center justify-center bg-stone-50 hover:bg-stone-100 border border-stone-200 hover:border-stone-300 rounded-xl text-stone-500 hover:text-[#1e3a5f] transition disabled:opacity-40"
-            >
-              {uploading ? (
-                <div className="w-4 h-4 border-2 border-stone-300 border-t-[#1e3a5f] rounded-full animate-spin"></div>
-              ) : (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.98 8.8l-8.57 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+
+            {!empty && (
+              <div ref={scrollerRef} className="space-y-6 mb-6">
+                {messages.map((m, i) => (
+                  <div key={i}>
+                    <div className="text-[11px] uppercase tracking-[0.12em] text-stone-500 mb-2 font-medium">
+                      {m.role === "user" ? "את" : "Co-Pilot"}
+                    </div>
+                    <div
+                      className={
+                        "rounded-2xl px-6 py-4 border leading-relaxed whitespace-pre-wrap bubble " +
+                        (m.role === "user"
+                          ? "bg-white border-stone-200 text-stone-800 shadow-sm"
+                          : "bg-[#1e3a5f]/[0.025] border-[#1e3a5f]/15 text-stone-800")
+                      }
+                    >
+                      {m.content || (busy && i === messages.length - 1 ? "…" : "")}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow sticky bottom-4">
+              {uploadedFile && (
+                <div className="mb-3 text-[12px] text-[#1e3a5f] bg-[#1e3a5f]/[0.06] border border-[#1e3a5f]/20 rounded-lg px-3 py-1.5 inline-flex items-center gap-2">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span className="font-medium">{uploadedFile}</span>
+                </div>
               )}
-            </button>
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-                  e.preventDefault();
-                  send();
-                }
-              }}
-              placeholder={MODES[mode].placeholder}
-              rows={3}
-              className="flex-1 bg-stone-50/50 border border-stone-200 rounded-xl px-4 py-3 outline-none focus:border-[#1e3a5f] focus:bg-white resize-y transition text-[14.5px] leading-relaxed text-stone-800 placeholder:text-stone-400"
-            />
-            <button
-              onClick={send}
-              disabled={busy || !input.trim()}
-              className="h-[50px] bg-[#1e3a5f] hover:bg-[#0f1e33] disabled:bg-stone-300 disabled:cursor-not-allowed px-6 rounded-xl text-white font-medium shadow-sm hover:shadow-md transition-all"
-            >
-              {busy ? (
-                <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin mx-auto"></div>
-              ) : (
-                "שליחה"
-              )}
-            </button>
+              <div className="flex gap-2 items-end">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".pdf,.docx,.txt,.md"
+                  onChange={handleFile}
+                  className="hidden"
+                />
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  title="העלי מאמר (PDF/DOCX/TXT)"
+                  className="shrink-0 h-[50px] w-[50px] flex items-center justify-center bg-stone-50 hover:bg-stone-100 border border-stone-200 hover:border-stone-300 rounded-xl text-stone-500 hover:text-[#1e3a5f] transition disabled:opacity-40"
+                >
+                  {uploading ? (
+                    <div className="w-4 h-4 border-2 border-stone-300 border-t-[#1e3a5f] rounded-full animate-spin"></div>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.98 8.8l-8.57 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                  )}
+                </button>
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                      e.preventDefault();
+                      send();
+                    }
+                  }}
+                  placeholder={MODES[mode].placeholder}
+                  rows={3}
+                  className="flex-1 bg-stone-50/50 border border-stone-200 rounded-xl px-4 py-3 outline-none focus:border-[#1e3a5f] focus:bg-white resize-y transition text-[14.5px] leading-relaxed text-stone-800 placeholder:text-stone-400"
+                />
+                <button
+                  onClick={send}
+                  disabled={busy || !input.trim()}
+                  className="h-[50px] bg-[#1e3a5f] hover:bg-[#0f1e33] disabled:bg-stone-300 disabled:cursor-not-allowed px-6 rounded-xl text-white font-medium shadow-sm hover:shadow-md transition-all"
+                >
+                  {busy ? (
+                    <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin mx-auto"></div>
+                  ) : (
+                    "שליחה"
+                  )}
+                </button>
+              </div>
+              <div className="text-[11px] text-stone-400 text-center mt-3 tracking-wide">
+                Cmd/Ctrl + Enter לשליחה · המפתח נשמר מקומית · PDF/DOCX/TXT עד 20MB
+              </div>
+            </div>
           </div>
-          <div className="text-[11px] text-stone-400 text-center mt-3 tracking-wide">
-            Cmd/Ctrl + Enter לשליחה · המפתח נשמר מקומית · PDF/DOCX/TXT עד 20MB
-          </div>
-        </div>
+        </main>
       </div>
     </div>
   );
