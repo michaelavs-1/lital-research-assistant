@@ -148,46 +148,46 @@ export default function Page() {
   const empty = messages.length === 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0b0d1a] via-[#0d1020] to-[#0a0c18] text-slate-100">
-      <header className="border-b border-white/5 backdrop-blur-sm bg-white/[0.02] sticky top-0 z-30">
-        <div className="max-w-5xl mx-auto px-6 py-3 flex flex-wrap gap-3 items-center justify-between">
+    <div className="min-h-screen paper-bg text-stone-900">
+      <header className="bg-white/80 backdrop-blur-md border-b border-stone-200/80 sticky top-0 z-30">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex flex-wrap gap-3 items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-400 to-violet-600 flex items-center justify-center font-serif text-base font-semibold text-white shadow-lg shadow-indigo-500/20">LY</div>
+            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#1e3a5f] to-[#0f1e33] flex items-center justify-center font-display text-lg font-semibold text-[#faf7f2] shadow-md ring-1 ring-stone-900/5">LY</div>
             <div>
-              <div className="text-lg font-serif font-semibold tracking-tight">Lital&apos;s Research Co-Pilot</div>
-              <div className="text-[11px] text-slate-400 font-light">Context-Informed Social Work · Fatherhood · Qualitative Research</div>
+              <div className="text-[17px] font-display font-semibold tracking-tight text-stone-900 leading-tight">Lital&apos;s Research Co-Pilot</div>
+              <div className="text-[11.5px] text-stone-500 font-normal tracking-wide">Context-Informed Social Work · Fatherhood · Qualitative Research</div>
             </div>
           </div>
           <div className="flex gap-2 items-center">
             <select
               value={lang}
               onChange={(e) => setLang(e.target.value)}
-              className="bg-white/[0.04] border border-white/10 rounded-lg px-2.5 py-1 text-xs hover:bg-white/[0.08] transition"
+              className="bg-white border border-stone-200 rounded-lg px-3 py-1.5 text-xs hover:border-stone-300 hover:bg-stone-50 transition text-stone-700 cursor-pointer"
             >
               <option value="he">עברית</option>
               <option value="en">English</option>
             </select>
-            <button onClick={reset} className="text-xs bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 rounded-lg px-3 py-1 transition">
+            <button onClick={reset} className="text-xs bg-white hover:bg-stone-50 border border-stone-200 hover:border-stone-300 rounded-lg px-3 py-1.5 transition text-stone-700 font-medium">
               שיחה חדשה
             </button>
             <button
               onClick={() => { setKeyDraft(apiKey); setShowSettings(true); }}
-              className={"text-xs rounded-lg px-3 py-1 border transition " + (apiKey ? "bg-white/[0.04] hover:bg-white/[0.08] border-white/10" : "bg-amber-500/15 hover:bg-amber-500/25 border-amber-400/50 text-amber-200")}
+              className={"text-xs rounded-lg px-3 py-1.5 border transition font-medium " + (apiKey ? "bg-white hover:bg-stone-50 border-stone-200 hover:border-stone-300 text-stone-700" : "bg-amber-50 hover:bg-amber-100 border-amber-300 text-amber-800")}
             >
-              מפתח API
+              {apiKey ? "מפתח API" : "הוסיפי מפתח API"}
             </button>
           </div>
         </div>
       </header>
 
       {showSettings && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowSettings(false)}>
-          <div className="bg-[#111425] border border-white/10 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="text-lg font-serif font-semibold">מפתח OpenAI</div>
-            <div className="text-sm text-slate-300 leading-relaxed">
-              הדביקי כאן את מפתח ה-API שלך (מתחיל ב-<code dir="ltr" className="bg-white/5 px-1 rounded">sk-</code>).
+        <div className="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowSettings(false)}>
+          <div className="bg-white rounded-2xl max-w-lg w-full p-7 space-y-4 shadow-2xl ring-1 ring-stone-900/5" onClick={(e) => e.stopPropagation()}>
+            <div className="text-xl font-display font-semibold text-stone-900">מפתח OpenAI</div>
+            <div className="text-sm text-stone-600 leading-relaxed">
+              הדביקי כאן את מפתח ה-API שלך (מתחיל ב-<code dir="ltr" className="bg-stone-100 px-1.5 py-0.5 rounded text-stone-800 text-[12px]">sk-</code>).
               נשמר מקומית בדפדפן. להשגה:
-              <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-indigo-200 underline mx-1">platform.openai.com/api-keys</a>
+              <a href="https://platform.openai.com/api-keys" target="_blank" rel="noreferrer" className="text-[#1e3a5f] hover:text-[#0f1e33] underline underline-offset-2 mx-1 font-medium">platform.openai.com/api-keys</a>
             </div>
             <input
               dir="ltr"
@@ -195,60 +195,71 @@ export default function Page() {
               value={keyDraft}
               onChange={(e) => setKeyDraft(e.target.value)}
               placeholder="sk-..."
-              className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 outline-none focus:border-indigo-400 font-mono text-sm"
+              className="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 outline-none focus:border-[#1e3a5f] focus:bg-white font-mono text-sm transition"
               autoFocus
             />
-            <div className="flex gap-2 justify-end">
-              <button onClick={() => setShowSettings(false)} className="px-4 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-sm transition">ביטול</button>
-              <button onClick={saveKey} disabled={!keyDraft.trim()} className="px-4 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-400 disabled:opacity-40 text-sm font-medium transition">שמירה</button>
+            <div className="flex gap-2 justify-end pt-1">
+              <button onClick={() => setShowSettings(false)} className="px-4 py-2 rounded-lg bg-white hover:bg-stone-50 border border-stone-200 text-sm font-medium text-stone-700 transition">ביטול</button>
+              <button onClick={saveKey} disabled={!keyDraft.trim()} className="px-5 py-2 rounded-lg bg-[#1e3a5f] hover:bg-[#0f1e33] disabled:opacity-40 disabled:cursor-not-allowed text-sm font-medium text-white transition shadow-sm">שמירה</button>
             </div>
-            <div className="text-[11px] text-slate-500">עלויות ה-API מחויבות ישירות לחשבון ה-OpenAI שלך.</div>
+            <div className="text-[11.5px] text-stone-500 pt-1">עלויות ה-API מחויבות ישירות לחשבון ה-OpenAI שלך.</div>
           </div>
         </div>
       )}
 
-      <div className="max-w-5xl mx-auto px-6 pb-8">
+      <div className="max-w-5xl mx-auto px-6 pb-10">
         {empty && (
-          <section className="pt-8 pb-6 text-center space-y-3">
-            <div className="text-3xl font-serif font-medium text-slate-100">ברוכה הבאה, ליטל</div>
-            <div className="text-slate-400 text-sm leading-relaxed max-w-2xl mx-auto">
-              בחרי תחום עבודה למטה, הדביקי טקסט או העלי מאמר. כל ההקשר של תחום המחקר שלך
-              (NEVET · context-informed practice · אבהות לא-משמורנית · סיכון בילדות · עוני · מתודולוגיה איכותנית)
-              כבר טעון למודל.
+          <section className="pt-12 pb-8 text-center space-y-4">
+            <div className="inline-block">
+              <div className="text-[11px] uppercase tracking-[0.2em] text-[#a16207] font-medium mb-3">Senior Academic Co-Pilot</div>
             </div>
+            <h1 className="font-display text-5xl md:text-[56px] font-medium text-stone-900 leading-[1.1]">
+              ברוכה הבאה, ד״ר ליטל
+            </h1>
+            <p className="text-stone-600 text-[15px] leading-relaxed max-w-2xl mx-auto pt-1">
+              שותף כתיבה ומחקר שמכיר את עולמך —
+              <span className="text-stone-800 font-medium"> Context-Informed Practice</span>,
+              אבהות לא-משמורנית, סיכון ועוני, מתודולוגיה איכותנית.
+              <br />
+              בחרי תחום עבודה, הדביקי טקסט או העלי מאמר.
+            </p>
           </section>
         )}
 
         {empty && (
-          <section className="mb-5" dir="rtl">
-            <div className="text-[11px] font-medium tracking-wider text-slate-500 mb-3 text-center">בחרי תחום עבודה</div>
-            <div className="space-y-1.5 max-w-3xl mx-auto">
+          <section className="mb-6" dir="rtl">
+            <div className="flex items-center gap-3 mb-4 max-w-3xl mx-auto">
+              <div className="h-px flex-1 bg-stone-200"></div>
+              <div className="text-[11px] font-medium tracking-[0.15em] text-stone-500 uppercase">תחומי עבודה</div>
+              <div className="h-px flex-1 bg-stone-200"></div>
+            </div>
+            <div className="space-y-2 max-w-3xl mx-auto">
               {CATEGORIES.map((cat) => {
                 const open = expandedCat === cat.name;
                 const hasActive = cat.modes.includes(mode);
                 return (
-                  <div key={cat.name} className="border border-white/10 rounded-xl bg-white/[0.02] overflow-hidden">
+                  <div key={cat.name} className={"border rounded-xl bg-white overflow-hidden transition-all " + (open || hasActive ? "border-stone-300 shadow-sm" : "border-stone-200 hover:border-stone-300")}>
                     <button
                       onClick={() => setExpandedCat(open ? "" : cat.name)}
-                      className={"w-full flex items-center justify-between px-4 py-2.5 text-sm transition " + (open ? "bg-white/[0.04]" : "hover:bg-white/[0.03]")}
+                      className={"w-full flex items-center justify-between px-5 py-3.5 text-[15px] transition group " + (open ? "bg-stone-50/50" : "hover:bg-stone-50/40")}
                     >
-                      <span className={"font-medium " + (hasActive ? "text-indigo-200" : "text-slate-200")}>{cat.name}</span>
-                      <span className="flex items-center gap-2">
-                        <span className="text-[11px] text-slate-500">{cat.modes.length}</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={"text-slate-400 transition-transform " + (open ? "rotate-180" : "")}><polyline points="6 9 12 15 18 9"/></svg>
+                      <span className={"font-display font-medium text-[16px] " + (hasActive ? "text-[#1e3a5f]" : "text-stone-800 group-hover:text-stone-900")}>{cat.name}</span>
+                      <span className="flex items-center gap-3">
+                        <span className={"text-[11px] font-medium px-2 py-0.5 rounded-full " + (hasActive ? "bg-[#1e3a5f]/10 text-[#1e3a5f]" : "bg-stone-100 text-stone-500")}>{cat.modes.length}</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={"text-stone-400 transition-transform " + (open ? "rotate-180" : "")}><polyline points="6 9 12 15 18 9"/></svg>
                       </span>
                     </button>
                     {open && (
-                      <div className="flex flex-wrap gap-1.5 px-4 py-3 border-t border-white/5">
+                      <div className="flex flex-wrap gap-2 px-5 py-4 border-t border-stone-100 bg-stone-50/30">
                         {cat.modes.map((k) => (
                           <button
                             key={k}
                             onClick={() => setMode(k)}
                             className={
-                              "text-[13px] px-3 py-1.5 rounded-full border transition-all " +
+                              "text-[13.5px] px-4 py-2 rounded-full border font-medium transition-all " +
                               (mode === k
-                                ? "bg-indigo-500/25 border-indigo-400/60 text-indigo-100 shadow-sm shadow-indigo-500/20"
-                                : "bg-white/[0.03] border-white/10 text-slate-300 hover:bg-white/[0.08] hover:border-white/20")
+                                ? "bg-[#1e3a5f] border-[#1e3a5f] text-white shadow-sm"
+                                : "bg-white border-stone-200 text-stone-700 hover:border-[#1e3a5f]/40 hover:text-[#1e3a5f] hover:bg-[#1e3a5f]/[0.03]")
                             }
                           >
                             {MODES[k].label}
@@ -264,17 +275,17 @@ export default function Page() {
         )}
 
         {!empty && (
-          <div className="sticky top-[60px] z-20 -mx-6 px-6 py-2 bg-[#0b0d1a]/80 backdrop-blur-sm border-b border-white/5">
+          <div className="sticky top-[73px] z-20 -mx-6 px-6 py-2.5 bg-[#faf7f2]/90 backdrop-blur-md border-b border-stone-200/60">
             <div className="flex flex-wrap gap-1.5 justify-center">
               {Object.keys(MODES).map((k) => (
                 <button
                   key={k}
                   onClick={() => setMode(k)}
                   className={
-                    "text-[12px] px-2.5 py-1 rounded-full border transition-all " +
+                    "text-[12px] px-2.5 py-1 rounded-full border transition-all font-medium " +
                     (mode === k
-                      ? "bg-indigo-500/25 border-indigo-400/60 text-indigo-100"
-                      : "bg-white/[0.03] border-white/10 text-slate-400 hover:bg-white/[0.08]")
+                      ? "bg-[#1e3a5f] border-[#1e3a5f] text-white"
+                      : "bg-white border-stone-200 text-stone-600 hover:border-stone-300 hover:text-stone-900")
                   }
                 >
                   {MODES[k].label}
@@ -284,23 +295,29 @@ export default function Page() {
           </div>
         )}
 
-        <div className="text-[13px] text-slate-300 bg-indigo-500/[0.06] border border-indigo-400/20 rounded-xl px-4 py-2.5 my-4 leading-relaxed">
-          <span className="text-indigo-300 font-medium">{MODES[mode].label}:</span> {MODES[mode].hint}
+        <div className="bg-gradient-to-br from-[#1e3a5f]/[0.04] to-[#a16207]/[0.03] border border-[#1e3a5f]/15 rounded-xl px-5 py-4 my-6 leading-relaxed shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="w-1 self-stretch bg-[#1e3a5f]/40 rounded-full flex-shrink-0 mt-0.5"></div>
+            <div className="flex-1">
+              <div className="text-[11px] font-medium tracking-[0.1em] uppercase text-[#1e3a5f]/70 mb-1">{MODES[mode].label}</div>
+              <div className="text-[14px] text-stone-700">{MODES[mode].hint}</div>
+            </div>
+          </div>
         </div>
 
         {!empty && (
-          <main ref={scrollerRef} className="space-y-5 mb-5">
+          <main ref={scrollerRef} className="space-y-6 mb-6">
             {messages.map((m, i) => (
               <div key={i}>
-                <div className="text-[11px] uppercase tracking-wider text-slate-500 mb-1.5">
+                <div className="text-[11px] uppercase tracking-[0.12em] text-stone-500 mb-2 font-medium">
                   {m.role === "user" ? "את" : "Co-Pilot"}
                 </div>
                 <div
                   className={
-                    "rounded-2xl px-5 py-3.5 border leading-relaxed whitespace-pre-wrap " +
+                    "rounded-2xl px-6 py-4 border leading-relaxed whitespace-pre-wrap bubble " +
                     (m.role === "user"
-                      ? "bg-indigo-500/10 border-indigo-400/25 text-slate-100"
-                      : "bg-white/[0.03] border-white/10 text-slate-200")
+                      ? "bg-white border-stone-200 text-stone-800 shadow-sm"
+                      : "bg-[#1e3a5f]/[0.025] border-[#1e3a5f]/15 text-stone-800")
                   }
                 >
                   {m.content || (busy && i === messages.length - 1 ? "…" : "")}
@@ -310,10 +327,11 @@ export default function Page() {
           </main>
         )}
 
-        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-3 shadow-lg shadow-black/20">
+        <div className="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
           {uploadedFile && (
-            <div className="mb-2 text-[12px] text-indigo-300 bg-indigo-500/10 border border-indigo-400/20 rounded-lg px-3 py-1.5 inline-block">
-              קובץ הועלה: {uploadedFile}
+            <div className="mb-3 text-[12px] text-[#1e3a5f] bg-[#1e3a5f]/[0.06] border border-[#1e3a5f]/20 rounded-lg px-3 py-1.5 inline-flex items-center gap-2">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              <span className="font-medium">{uploadedFile}</span>
             </div>
           )}
           <div className="flex gap-2 items-end">
@@ -328,9 +346,11 @@ export default function Page() {
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
               title="העלי מאמר (PDF/DOCX/TXT)"
-              className="shrink-0 h-[46px] w-[46px] flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 rounded-xl text-slate-400 hover:text-slate-200 transition disabled:opacity-40"
+              className="shrink-0 h-[50px] w-[50px] flex items-center justify-center bg-stone-50 hover:bg-stone-100 border border-stone-200 hover:border-stone-300 rounded-xl text-stone-500 hover:text-[#1e3a5f] transition disabled:opacity-40"
             >
-              {uploading ? "…" : (
+              {uploading ? (
+                <div className="w-4 h-4 border-2 border-stone-300 border-t-[#1e3a5f] rounded-full animate-spin"></div>
+              ) : (
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.98 8.8l-8.57 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
               )}
             </button>
@@ -345,17 +365,21 @@ export default function Page() {
               }}
               placeholder={MODES[mode].placeholder}
               rows={3}
-              className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-400/60 focus:bg-white/[0.06] resize-y transition text-[14px] leading-relaxed"
+              className="flex-1 bg-stone-50/50 border border-stone-200 rounded-xl px-4 py-3 outline-none focus:border-[#1e3a5f] focus:bg-white resize-y transition text-[14.5px] leading-relaxed text-stone-800 placeholder:text-stone-400"
             />
             <button
               onClick={send}
               disabled={busy || !input.trim()}
-              className="h-[46px] bg-gradient-to-br from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 disabled:opacity-40 disabled:cursor-not-allowed px-5 rounded-xl text-white font-medium shadow-lg shadow-indigo-500/20 transition"
+              className="h-[50px] bg-[#1e3a5f] hover:bg-[#0f1e33] disabled:bg-stone-300 disabled:cursor-not-allowed px-6 rounded-xl text-white font-medium shadow-sm hover:shadow-md transition-all"
             >
-              {busy ? "…" : "שליחה"}
+              {busy ? (
+                <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin mx-auto"></div>
+              ) : (
+                "שליחה"
+              )}
             </button>
           </div>
-          <div className="text-[11px] text-slate-500 text-center mt-2">
+          <div className="text-[11px] text-stone-400 text-center mt-3 tracking-wide">
             Cmd/Ctrl + Enter לשליחה · המפתח נשמר מקומית · PDF/DOCX/TXT עד 20MB
           </div>
         </div>
