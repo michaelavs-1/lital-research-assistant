@@ -198,6 +198,9 @@ export default function Page() {
 
   return (
     <div className="min-h-screen paper-bg text-stone-900">
+      <div className="fixed bottom-3 left-3 z-40 select-none pointer-events-none">
+        <div className="px-2.5 py-1 rounded-full bg-[#1e3a5f] text-white text-[10.5px] font-semibold tracking-[0.12em] uppercase shadow-lg ring-1 ring-white/20">v2 · Q1 Brain</div>
+      </div>
       <header className="bg-white/80 backdrop-blur-md border-b border-stone-200/80 sticky top-0 z-30">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-wrap gap-3 items-center justify-between">
           <div className="flex items-center gap-3">
